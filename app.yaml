@@ -1,0 +1,27 @@
+runtime: custom
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
+
+runtime_config:
+ python_version: 3
+ 
+# Choose to enable either a TCP or Unix domain socket for your database connection
+# # Enable a Unix domain socket
+# beta_settings:
+#   cloud_sql_instances: <MY-PROJECT>:<INSTANCE-REGION>:<MY-DATABASE>
+
+# Enable a TCP domain socket
+beta_settings:
+  cloud_sql_instances: newprojecttest-286121:us-central1:postgresdb
+
+# Remember - storing secrets in plaintext is potentially unsafe. Consider using
+# something like https://cloud.google.com/secret-manager/docs/overview to help keep
+# secrets secret.
+env_variables:
+  CLOUD_SQL_CONNECTION_NAME: newprojecttest-286121:us-central1:postgresdb
+  DB_USER: postgres
+  DB_PASS: 23people
+  DB_NAME: postgres
+
+  # TCP connection setup; remove if using a Unix domain socket instead
+  #DB_HOST: 172.17.0.1:<PORT>
