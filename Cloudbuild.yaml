@@ -1,4 +1,10 @@
 steps:
+- name: 'docker.io/library/python:3.7'
+  id: Test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'pip install -t /workspace -r requirements.txt && $(which pytest) /workspace/*_test.py'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy']
   timeout: '1600s'  
