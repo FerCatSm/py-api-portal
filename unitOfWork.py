@@ -10,7 +10,7 @@ class Repository:
   print("Conexión establecida")
 
  def select_user(self, id):
-  sql = 'SELECT nationalId, name, lastName, age, originPlanet, pictureUrl FROM people where nationalId =\'{}\''.format(id)
+  sql = 'SELECT "nationalId", name, "lastName", age, "originPlanet", "pictureUrl" FROM people where nationalId =\'{}\''.format(id)
   try:
    with self.db.connect() as conn:
     userCursor = conn.execute(sql).cursor
@@ -23,7 +23,7 @@ class Repository:
    return None
    
  def select_all_users(self):
-  sql = 'SELECT nationalId, name, lastName, age, originPlanet, pictureUrl FROM people'
+  sql = 'SELECT "nationalId", name, "lastName", age, "originPlanet", "pictureUrl" FROM people'
   try:
    with self.db.connect() as conn:
     usersCursor = conn.execute(sql).cursor
@@ -36,6 +36,33 @@ class Repository:
    return result
   except Exception as e:
    raise  
+
+ def add_user(self, data):
+  sql = 'INSERT INTO people values (\'{}\',\'{}\',\'{}\',{},\'{}\',\'{}\')'.format(data['nationalId'],data['name'],data['lastName'],data['age'],data['originPlanet'],data['pictureUrl'])
+
+  try:   
+   with self.db.connect() as conn:
+    conn.execute(sql)
+  except Exception as e:
+   raise   
+   
+ def update_user(self, nationalId, data):
+  sql = 'UPDATE people SET "nationalId" = \'{}\', name = \'{}\', "lastName" = \'{}\', age = {}, "originPlanet" = \'{}\', "pictureUrl" = \'{}\' WHERE "nationalId" = \'{}\' '.format(data['nationalId'],data['name'],data['lastName'],data['age'],data['originPlanet'],data['pictureUrl'], nationalId)
+
+  try:   
+   with self.db.connect() as conn:
+    conn.execute(sql)
+  except Exception as e:
+   raise         
+
+ def delete_user(self, nationalId):
+  sql = 'DELETE FROM people WHERE nationalId = \'{}\' '.format(nationalId)
+  try:   
+   with self.db.connect() as conn:
+    conn.execute(sql)
+  except Exception as e:
+   raise 
+      
    
    
 def init_connection_engine():
@@ -46,8 +73,7 @@ def init_connection_engine():
         "pool_recycle": 1800,  # 30 minutes
     }
 
- #if os.environ.get("DB_HOST"):  
- if True:
+ if os.environ.get("DB_HOST"):  
   return connection.init_tcp_connection_engine(db_config)
  else:
   return connection.init_unix_connection_engine(db_config)
