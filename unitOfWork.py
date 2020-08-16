@@ -46,7 +46,8 @@ def init_connection_engine():
         "pool_recycle": 1800,  # 30 minutes
     }
 
- if os.environ.get("DB_HOST"): 
+ #if os.environ.get("DB_HOST"):  
+ if True:
   return connection.init_tcp_connection_engine(db_config)
  else:
   return connection.init_unix_connection_engine(db_config)
