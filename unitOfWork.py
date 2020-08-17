@@ -10,7 +10,7 @@ class Repository:
   print("Conexión establecida")
 
  def select_user(self, id):
-  sql = 'SELECT "nationalId", name, "lastName", age, "originPlanet", "pictureUrl" FROM people where nationalId =\'{}\''.format(id)
+  sql = 'SELECT "nationalId", name, "lastName", age, "originPlanet", "pictureUrl" FROM people where "nationalId" =\'{}\''.format(id)
   try:
    with self.db.connect() as conn:
     userCursor = conn.execute(sql).cursor
@@ -56,7 +56,7 @@ class Repository:
    raise         
 
  def delete_user(self, nationalId):
-  sql = 'DELETE FROM people WHERE nationalId = \'{}\' '.format(nationalId)
+  sql = 'DELETE FROM people WHERE "nationalId" = \'{}\' '.format(nationalId)
   try:   
    with self.db.connect() as conn:
     conn.execute(sql)
