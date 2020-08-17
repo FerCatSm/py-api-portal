@@ -7,7 +7,7 @@ class Repository:
  def __init__(self):
   self.db = init_connection_engine()
 
-  print("Conexión establecida")
+  print("Connection was established")
 
  def select_user(self, id):
   sql = 'SELECT "nationalId", name, "lastName", age, "originPlanet", "pictureUrl" FROM people where "nationalId" =\'{}\''.format(id)
